@@ -22,7 +22,7 @@
 </template>
 
 <script setup lang="ts">
-const isChatting = useState("isChatting", () => false);
+const isChatting = useIsChatting();
 </script>
 
 <style>
