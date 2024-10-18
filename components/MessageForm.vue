@@ -29,9 +29,21 @@
 
 <script setup lang="ts" >
 const newMessage = ref("");
+const messages = useMessages();
+const { customerInitials } = useCustomer();
 
 function handleSubmit() 
 {
+  messages.value.push({
+    name: "Bruno",
+    message: newMessage.value,
+    isBruno: true,
+    timestamp: new Date().toLocaleTimeString([], {
+      timeStyle: "short",
+      hourCycle: "h24"
+    }) 
+  });
+
   newMessage.value = "";
 }
 
