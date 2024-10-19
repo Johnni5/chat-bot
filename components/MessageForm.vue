@@ -28,23 +28,42 @@
 
 
 <script setup lang="ts" >
+import { marked } from 'marked';
+import DOMPurify from 'dompurify';
+
 const newMessage = ref("");
 const messages = useMessages();
 const { customerInitials } = useCustomer();
 
-function handleSubmit() 
+async function handleSubmit() 
 {
+
+  messages.value.push({
+    name: customerInitials.value,
+    message: newMessage.value, //u can sanitize user-msg aswell, up to you
+    isBruno: false,
+    timestamp: new Date().toLocaleTimeString([], {
+      timeStyle: "short",
+      hourCycle: "h24"
+    }),
+  });
+
+  newMessage.value = "";
+
+  const parsedMessage = await marked.parse(
+    DOMPurify.sanitize("Mello **world**!") // makes it bold, rm mal.code
+  );
+  
   messages.value.push({
     name: "Bruno",
-    message: newMessage.value,
+    message: parsedMessage, //u can sanitize user-msg aswell, up to you
     isBruno: true,
     timestamp: new Date().toLocaleTimeString([], {
       timeStyle: "short",
       hourCycle: "h24"
-    }) 
+    }),
   });
-
-  newMessage.value = "";
+ 
 }
 
 </script>
